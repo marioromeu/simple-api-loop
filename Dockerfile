@@ -1,5 +1,5 @@
 # Dockerfile
-FROM openjdk:17-jre-slim
+FROM alpine/java:21-jdk
 
 WORKDIR /app
 
