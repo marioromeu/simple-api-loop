@@ -1,10 +1,14 @@
 package com.timwe.simple_api.api_loop.service;
 
+import java.util.logging.Logger;
+
 import org.springframework.stereotype.Service;
 
 @Service
 public class ApiService {
 
+	Logger log = Logger.getLogger(ApiService.class.getName());
+	
 	public void executeLoop(int repetitions) {
 		for (int i = 0; i < repetitions; i++) {
 			try {
@@ -19,9 +23,9 @@ public class ApiService {
 		int i,fact=1;		
 		for(i=1;i<=number;i++){
 			fact=fact*i;
-			System.out.println(i);
+			log.info(Thread.currentThread().getName() + " exec -> "+ i);
 		}
-		System.out.println("Factorial of "+number+" is: "+fact);
+		log.info("Factorial of "+number+" is: "+fact);
 	}
 
 }
