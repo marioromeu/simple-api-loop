@@ -5,7 +5,6 @@ import java.util.UUID;
 import java.util.concurrent.TimeoutException;
 import java.util.logging.Logger;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.rabbitmq.client.Channel;
@@ -16,32 +15,29 @@ import com.rabbitmq.client.ConnectionFactory;
 public class ApiService {
 
 	Logger log = Logger.getLogger(ApiService.class.getName());
-
-	private String queueName = "TEST-QUEUE";
-	
-	@Value("${hostname}")
-	private String hostName;
 	
 	public void produce() throws IOException, TimeoutException {
 
 		ConnectionFactory factory = new ConnectionFactory();
-		factory.setHost(hostName);
-		factory.setPort(5672);
-		factory.setPassword("guest");
-		factory.setUsername("guest");
-		factory.setVirtualHost("/");
 
+		System.out.println(
+				factory.getUsername() + " | " + 
+						factory.getPassword() + " | " + 
+								factory.getHost() + " | " + 
+									factory.getPort() + " | " + 
+										factory.getVirtualHost() );
+		
 		try (
 				Connection connection = factory.newConnection(); 
 				Channel channel = connection.createChannel()
 		) {
 
-			channel.queueDeclare(queueName, false, false, false, null);
+			channel.queueDeclare("TEST-QUEUE", false, false, false, null);
 			String message = "";
 
 			for (int i = 0; i < 60; i++) {
 				message = "UUID = " + UUID.randomUUID() + " TEST QUEUE";
-				channel.basicPublish("", queueName, null, message.getBytes());
+				channel.basicPublish("", "TEST-QUEUE", null, message.getBytes());
 				System.out.println(" [x] Sent '" + message + "'");
 			}
 
