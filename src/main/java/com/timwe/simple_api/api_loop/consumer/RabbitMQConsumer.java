@@ -23,27 +23,16 @@ public class RabbitMQConsumer {
 	
 	public RabbitMQConsumer() {
 		ConnectionFactory factory = new ConnectionFactory();
-		factory.setHost(hostName);
-		factory.setPort(5672);
-		factory.setPassword("guest");
-		factory.setUsername("guest");
-		factory.setVirtualHost("/");
-
 		try {
 			connection = factory.newConnection();
 			channel = connection.createChannel();
 			channel.queueDeclare(queueName, false, false, false, null);
-
 		} catch (IOException e) {
 			e.printStackTrace();
-
 		} catch (TimeoutException e) {
 			e.printStackTrace();
-
 		}
-
 		System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
-
 	}
 
 	@Scheduled(fixedDelay = 1000)
