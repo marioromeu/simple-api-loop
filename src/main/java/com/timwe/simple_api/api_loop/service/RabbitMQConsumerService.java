@@ -1,9 +1,8 @@
-package com.timwe.simple_api.api_loop.consumer;
+package com.timwe.simple_api.api_loop.service;
 
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.rabbitmq.client.Channel;
@@ -11,13 +10,14 @@ import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.DeliverCallback;
 
-@Service
-public class RabbitMQConsumer {
 
-	private Connection connection;
-	private Channel channel;
+@Service
+public class RabbitMQConsumerService {
 	
-	public RabbitMQConsumer() {
+	private Channel channel;	
+	private Connection connection;
+	
+	public RabbitMQConsumerService() {
 		ConnectionFactory factory = new ConnectionFactory();
 		try {
 			connection = factory.newConnection();
@@ -28,23 +28,27 @@ public class RabbitMQConsumer {
 		} catch (TimeoutException e) {
 			e.printStackTrace();
 		}
-		System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
+	}
+	
+	public void startConsumer() throws IOException {	
+		System.out.println("Iniciando consumidor");
+		channel.basicConsume("TEST-QUEUE", true, buildDeliverCallback(), consumerTag -> {
+		});
+		System.out.println("consumidor iniciado");		
 	}
 
-	@Scheduled(fixedDelay = 1000)
-	public void consume() throws IOException {
-	
-		System.out.println("Iniciando consumo");
-		
-		DeliverCallback deliverCallback = (consumerTag, delivery) -> {
+	public DeliverCallback buildDeliverCallback() {
+		 return (consumerTag, delivery) -> {
 		    String message = new String(delivery.getBody(), "UTF-8");
+		    
+		    try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		    
 		    System.out.println(" [x] Received '" + message + "'");
 		};
-
-		channel.basicConsume("TEST-QUEUE", true, deliverCallback, consumerTag -> { });
-
-		System.out.println("Fim do consumo");
-		
 	}
 	
 }

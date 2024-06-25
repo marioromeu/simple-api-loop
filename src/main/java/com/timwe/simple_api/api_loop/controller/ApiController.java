@@ -8,16 +8,26 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.timwe.simple_api.api_loop.service.ApiService;
+import com.timwe.simple_api.api_loop.service.RabbitMQConsumerService;
 
 @RestController
 public class ApiController {
 
     private final ApiService apiService;
+    
+    private final RabbitMQConsumerService consumerService;
 
-    public ApiController(ApiService apiService) {
+    public ApiController(ApiService apiService, RabbitMQConsumerService consumerService) {
         this.apiService = apiService;
+        this.consumerService = consumerService;
     }
 
+    @GetMapping("/start-consumer")
+    public String startConsumer() throws IOException {
+   		consumerService.startConsumer();
+        return "Consumidor iniciado";
+    }
+    
     @GetMapping("/produce")
     public String produce() {
     	try {
