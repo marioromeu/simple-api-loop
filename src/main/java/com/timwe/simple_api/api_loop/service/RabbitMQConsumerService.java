@@ -1,6 +1,7 @@
 package com.timwe.simple_api.api_loop.service;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.util.concurrent.TimeoutException;
 
 import org.springframework.stereotype.Service;
@@ -20,6 +21,16 @@ public class RabbitMQConsumerService {
 	public RabbitMQConsumerService() {
 		ConnectionFactory factory = new ConnectionFactory();
 		try {
+			
+			System.out.println("HOST="+factory.getHost());
+			System.out.println("PORT="+factory.getPort());
+			System.out.println("USER="+factory.getUsername());
+			System.out.println("PASS="+factory.getPassword());
+			System.out.println("VS="+factory.getVirtualHost());
+			
+	        System.out.println("MEU-ip="+InetAddress.getLocalHost().getHostAddress());
+	        System.out.println("MEU-hostname="+InetAddress.getLocalHost().getHostName());
+			
 			connection = factory.newConnection();
 			channel = connection.createChannel();
 			channel.queueDeclare("TEST-QUEUE", false, false, false, null);
