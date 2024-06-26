@@ -60,7 +60,7 @@ public class RabbitMQConsumerService {
 
 			connection = factory.newConnection();
 			channel = connection.createChannel();
-			channel.queueDeclare("TEST-QUEUE", false, false, false, null);
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (TimeoutException e) {
