@@ -69,7 +69,7 @@ public class RabbitMQProducerService {
 		}
 	}
 	
-	public void produce() throws IOException, TimeoutException {
+	public void produce(int count) throws IOException, TimeoutException {
 
 		System.out.println(
 				factory.getUsername() + " | " + 
@@ -83,7 +83,7 @@ public class RabbitMQProducerService {
 		
 		String message = "";
 
-		for (int i = 0; i < 60; i++) {
+		for (int i = 0; i < count; i++) {
 			message = "UUID = " + UUID.randomUUID() + " TEST QUEUE";
 			channel.basicPublish("", "TEST-QUEUE", null, message.getBytes());
 			System.out.println(" [x] Sent '" + message + "'");

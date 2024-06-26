@@ -39,10 +39,10 @@ public class ApiController {
         return "Consumidor iniciado";
     }
     
-    @GetMapping("/produce")
-    public String produce() {
+    @GetMapping("/produce/{count}")
+    public String produce(@PathVariable int count) {
     	try {
-    		producerService.produce();
+    		producerService.produce(count);
 		} catch (IOException e) {
 			e.printStackTrace();
 			return "Message failed";			
