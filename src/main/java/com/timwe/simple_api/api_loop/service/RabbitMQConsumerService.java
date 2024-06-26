@@ -32,7 +32,7 @@ public class RabbitMQConsumerService {
 	private String virtualHost;
 	
 	@Value("${spring.rabbitmq.port}")
-	private Integer port;
+	private String port;
 
 	/**
 	 * 
@@ -42,7 +42,7 @@ public class RabbitMQConsumerService {
 		ConnectionFactory factory = new ConnectionFactory();
 
 		factory.setHost(host);
-		factory.setPort(port);
+		factory.setPort(Integer.parseInt(host));
 		factory.setUsername(username);
 		factory.setPassword(password);
 		factory.setVirtualHost(virtualHost);
