@@ -41,7 +41,7 @@ public class RabbitMQConsumerService {
 
 		ConnectionFactory factory = new ConnectionFactory();
 
-		factory.setHost(host != null ? host : "10.128.10.103");
+		factory.setHost(host != null ? host : "10.128.10.215");
 		factory.setPort(port != null ? Integer.parseInt(port) : 5672);
 		factory.setUsername(username != null ? username : "guest");
 		factory.setPassword(password != null ? password : "guest");
