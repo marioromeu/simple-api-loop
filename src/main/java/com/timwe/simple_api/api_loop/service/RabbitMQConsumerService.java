@@ -45,7 +45,7 @@ public class RabbitMQConsumerService {
 		factory.setPort(port != null ? Integer.parseInt(port) : 5672);
 		factory.setUsername(username != null ? username : "guest");
 		factory.setPassword(password != null ? password : "guest");
-		factory.setVirtualHost(virtualHost != null ? virtualHost : "/");
+		factory.setVirtualHost(virtualHost != null ? virtualHost : "storage-collector-dev");
 		
 		try {
 			
