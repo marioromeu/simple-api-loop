@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.timwe.simple_api.api_loop.service.ApiService;
 import com.timwe.simple_api.api_loop.service.RabbitMQConsumerService;
+import com.timwe.simple_api.api_loop.service.RabbitMQProducerService;
 
 @RestController
 public class ApiController {
@@ -16,10 +17,16 @@ public class ApiController {
     private final ApiService apiService;
     
     private final RabbitMQConsumerService consumerService;
+    
+    private final RabbitMQProducerService producerService;
 
-    public ApiController(ApiService apiService, RabbitMQConsumerService consumerService) {
+    public ApiController(
+    		ApiService apiService, 
+    		RabbitMQConsumerService consumerService,
+    		RabbitMQProducerService producerService) {
         this.apiService = apiService;
         this.consumerService = consumerService;
+        this.producerService = producerService;
     }
 
     @GetMapping("/start-consumer")
@@ -31,7 +38,7 @@ public class ApiController {
     @GetMapping("/produce")
     public String produce() {
     	try {
-			apiService.produce();
+    		producerService.produce();
 		} catch (IOException e) {
 			e.printStackTrace();
 			return "Message failed";			
