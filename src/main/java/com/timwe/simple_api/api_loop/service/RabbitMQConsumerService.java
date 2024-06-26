@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.util.concurrent.TimeoutException;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.rabbitmq.client.Channel;
@@ -18,11 +19,37 @@ public class RabbitMQConsumerService {
 	private Channel channel;	
 	private Connection connection;
 	
+	@Value("${spring.rabbitmq.host}")
+	private String host;
+	
+	@Value("${spring.rabbitmq.username}")
+	private String username;
+	
+	@Value("${spring.rabbitmq.password}")
+	private String password;
+	
+	@Value("${spring.rabbitmq.virtual-host}")
+	private String virtualHost;
+	
+	@Value("${spring.rabbitmq.port}")
+	private Integer port;
+
+	/**
+	 * 
+	 */
 	public RabbitMQConsumerService() {
+
 		ConnectionFactory factory = new ConnectionFactory();
+
+		factory.setHost(host);
+		factory.setPort(port);
+		factory.setUsername(username);
+		factory.setPassword(password);
+		factory.setVirtualHost(virtualHost);
+		
 		try {
 			
-			System.out.println("HOST="+factory.getHost());
+			System.out.println("BEFORE HOST="+factory.getHost());
 			System.out.println("PORT="+factory.getPort());
 			System.out.println("USER="+factory.getUsername());
 			System.out.println("PASS="+factory.getPassword());
@@ -30,7 +57,7 @@ public class RabbitMQConsumerService {
 			
 	        System.out.println("MEU-ip="+InetAddress.getLocalHost().getHostAddress());
 	        System.out.println("MEU-hostname="+InetAddress.getLocalHost().getHostName());
-			
+
 			connection = factory.newConnection();
 			channel = connection.createChannel();
 			channel.queueDeclare("TEST-QUEUE", false, false, false, null);
