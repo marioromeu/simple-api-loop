@@ -23,10 +23,14 @@ public class ApiController {
     public ApiController(
     		ApiService apiService, 
     		RabbitMQConsumerService consumerService,
-    		RabbitMQProducerService producerService) {
+    		RabbitMQProducerService producerService) throws IOException {
         this.apiService = apiService;
         this.consumerService = consumerService;
         this.producerService = producerService;
+        
+   		consumerService.startConsumer();
+        System.out.println("Consumidor iniciado");        
+        
     }
 
     @GetMapping("/start-consumer")
